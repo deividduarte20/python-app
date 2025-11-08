@@ -25,3 +25,4 @@ if __name__ == '__main__':
 #'/api/v1/details'
 #'/api/v1/healthzfrom'
 
+
