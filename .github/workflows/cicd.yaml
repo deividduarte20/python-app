@@ -50,7 +50,7 @@ jobs:
           yq -Yi '.image.tag = "${{needs.ci.outputs.commit_id}}"' charts/python-app/values.yaml
 
       - name: Commit changes
-        uses: EndBug/add-commit@v9
+        uses: EndBug/add-and-commit@v9
         with:
           message: 'Updates values.yaml with commit ${{needs.ci.outputs.commit_id}}'
 
