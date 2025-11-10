@@ -1,4 +1,4 @@
-name: ci
+name: cicd
 
 on:
   push:
@@ -8,8 +8,8 @@ on:
       - main
 
 jobs:
-  docker:
-    runs-on: self-hosted
+  ci:
+    runs-on: ubuntu-latest
     steps:
 
       - name: Shorten commit id
@@ -32,3 +32,17 @@ jobs:
         with:
           push: true
           tags: deividdua32/python-app:${{  env.COMMIT_ID  }}
+
+  cd:
+    needs: ci
+    runs-on: self-hosted
+    steps:
+
+      - name: ArgoCD app sync
+        shell: bash
+        run: |
+          argocd login argocd.test.com \
+          --insecure --grpc-web \
+          --username admin \
+          --password ${{ secrets.ARGOCD_PASSWORD }}
+          argocd app sync python-app
