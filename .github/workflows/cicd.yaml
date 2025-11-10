@@ -32,11 +32,27 @@ jobs:
         with:
           push: true
           tags: deividdua32/python-app:${{  env.COMMIT_ID  }}
+    outputs:
+      commit_id: ${{ env.COMMIT_ID }}
 
   cd:
     needs: ci
     runs-on: self-hosted
     steps:
+
+      - actions/checkout@v3  
+
+      - name: Modify values file
+        shell: bash
+        run: |
+          echo ${{needs.ci.outputs.commit_id}}
+          pip install yq
+          yq -Yi '.image.tag = "${{needs.ci.outputs.commit_id}}"' charts/python-app/values.yaml
+
+      - name: Commit changes
+        uses: EndBug/add-commit@v9
+        with:
+          message: 'Updates values.yaml with commit ${{needs.ci.outputs.commit_id}}'
 
       - name: Install argocd
         shell: bash
