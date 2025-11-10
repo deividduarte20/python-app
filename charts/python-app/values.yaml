@@ -2,7 +2,7 @@ replicaCount: 1
 image:
   repository: deividdua32/python-app
   pullPolicy: IfNotPresent
-  tag: ca9da1
+  tag: ccbdd1
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
